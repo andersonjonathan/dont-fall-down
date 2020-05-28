@@ -1,0 +1,468 @@
+@font-face {
+    font-family: Montserrat;
+    src: url(Montserrat-Regular.ttf);
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url(Raleway-Regular.ttf);
+}
+
+@font-face {
+    font-family: ChelseaMarket;
+    src: url(ChelseaMarket-Regular.ttf);
+}
+
+
+:root {
+    --width: 100vw;
+    --height: 100vh;
+    --panel-ratio: 0.2;
+    --background-color: #fafafa;
+    --color: #212121;
+    --left-background-color: #a4d0c0;
+    --right-background-color: #97c1b2;
+
+    /* Calculated sizes */
+    --left-panel-width: calc(var(--width) * var(--panel-ratio));
+    --right-panel-width: calc(var(--width) * calc(1 - var(--panel-ratio)));
+
+    /* Die settings */
+    --die-size: calc(var(--left-panel-width) * 0.35);
+    --die-spacing: calc(calc(var(--left-panel-width) - calc(2 * var(--die-size))) / 3);
+    --die-color: #fafafa;
+    --die-shadow-color: #649785;
+    --die-dot-color: #212121;
+    --die-dot-size: calc(var(--die-size) / 6);
+
+    /* Menu settings */
+    --backdrop-color: #00000080;
+    --menu-color: #fafafa;
+    --menu-hover-button-color: #f1f1f1;
+    --menu-selected-button-color: #9e9e9e;
+    --menu-width: calc(var(--width) * 0.8);
+
+    /* Player colors */
+    --player-n-color: #5200ac;
+    --player-1-color: #c71585;
+    --player-2-color: #1e90ff;
+    --player-3-color: #f14100;
+    --player-4-color: #054205;
+
+    /* Left panel settings */
+    --info-background-color: #748680;
+    --info-color: #fafafa;
+
+    /* Game plan settings */
+    --tile-color: #c7e3dd;
+    --text-color-completed: #819390;
+    --tile-color-completed: #91a7a3;
+    --tile-border-color: #479277;
+    --row-width: calc(var(--right-panel-width) / 13);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+    color: var(--color);
+    overflow: hidden;
+    user-select: none;
+}
+
+h1 {
+    font-family: 'ChelseaMarket', sans-serif;
+}
+
+h2, h3 {
+    font-family: 'Raleway', sans-serif;
+}
+
+/* ~~~~~~~~~~~~~~~ Menu styles ~~~~~~~~~~~~~~~ */
+#backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: var(--backdrop-color);
+}
+
+
+
+#menu {
+    position: absolute;
+    top: calc(var(--height) * 0.1);
+    max-height: calc(var(--height) * 0.8);
+    right: calc(var(--width) * 0.1);
+    left: calc(var(--width) * 0.1);
+    background-color: var(--menu-color);
+    text-align: center;
+    border-radius: 25px;
+    box-shadow: 0 0 calc(var(--die-spacing) / 2) var(--die-shadow-color);
+    padding-bottom: calc(var(--height) * 0.01);
+}
+
+
+@media only screen and (min-width: 1200px) {
+    :root {
+        --menu-width: calc(var(--width) * 0.4);
+    }
+
+    #menu {
+        position: absolute;
+        right: calc(var(--width) * 0.3);
+        left: calc(var(--width) * 0.3);
+    }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1200px) {
+    :root {
+        --menu-width: calc(var(--width) * 0.6);
+    }
+
+    #menu {
+        position: absolute;
+        right: calc(var(--width) * 0.2);
+        left: calc(var(--width) * 0.2);
+    }
+}
+
+#menu h1 {
+    font-size: 70px;
+}
+
+#menu .game-mode {
+    display: flex;
+    margin-left: calc(var(--menu-width) / 20);
+}
+
+.game-mode-button {
+    width: calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3);
+    padding: 3%;
+    box-sizing: border-box;
+    border-radius: calc(calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3) * 0.05);
+}
+
+.game-mode-button:hover {
+    background-color: var(--menu-hover-button-color);
+}
+
+.game-mode-button.selected {
+    box-shadow: inset 0 0 calc(var(--menu-width) / 100) var(--menu-selected-button-color);
+    background-color: var(--menu-hover-button-color);
+}
+
+#menu .players {
+    display: flex;
+    margin-left: calc(var(--menu-width) / 20);
+}
+
+.player-button {
+    width: calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3);
+    padding: 3%;
+    box-sizing: border-box;
+    border-radius: calc(calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3) * 0.05);
+}
+
+.player-button:hover {
+    background-color: var(--menu-hover-button-color);
+}
+
+.player-button.selected {
+    box-shadow: inset 0 0 calc(var(--menu-width) / 100) var(--menu-selected-button-color);
+    background-color: var(--menu-hover-button-color);
+}
+
+.start-button {
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3);
+    padding: 3%;
+    box-sizing: border-box;
+    border-radius: calc(calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3) * 0.05);
+}
+
+.start-button:hover {
+    background-color: var(--menu-hover-button-color);
+}
+
+.start-button.selected {
+    box-shadow: inset 0 0 calc(var(--menu-width) / 100) var(--menu-selected-button-color);
+    background-color: var(--menu-hover-button-color);
+}
+
+.openMenu {
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3);
+    padding: 3%;
+    box-sizing: border-box;
+    border-radius: calc(calc(calc(var(--menu-width) - calc(var(--menu-width) / 10)) / 3) * 0.05);
+}
+
+.openMenu:hover {
+    background-color: var(--menu-hover-button-color);
+}
+
+.openMenu.selected {
+    box-shadow: inset 0 0 calc(var(--menu-width) / 100) var(--menu-selected-button-color);
+    background-color: var(--menu-hover-button-color);
+}
+
+#resources {
+    display: none;
+    background-color: #ffc9c9;
+}
+
+
+/* ~~~~~~~~~~~~~~~ Game styles ~~~~~~~~~~~~~~~ */
+
+#content {
+    width: var(--width);
+    height: var(--height);
+    background-color: var(--background-color);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    display: flex;
+}
+
+#left-panel {
+    position: relative;
+    top: 0;
+    left: 0;
+    clear: none;
+    width: var(--left-panel-width);
+    height: var(--height);
+    background-color: var(--left-background-color);
+    margin: 0;
+    padding: 0;
+}
+
+#right-panel {
+    position: relative;
+    top: 0;
+    right: 0;
+    clear: none;
+    width: var(--right-panel-width);
+    height: var(--height);
+    background-color: var(--right-background-color);
+    margin: 0;
+    padding: 0;
+}
+
+#turn-info {
+    padding-left: var(--die-spacing);
+}
+#player-name {
+    vertical-align: bottom;
+}
+#player-color {
+    vertical-align: middle;
+    display: inline-block;
+    width: calc(var(--die-spacing) * 0.8);
+    height: calc(var(--die-spacing) * 0.8);
+    border-radius: 50%
+}
+#player-color.player-1 {
+    background-color: var(--player-1-color);
+}
+#player-color.player-2 {
+    background-color: var(--player-2-color);
+}
+#player-color.player-3 {
+    background-color: var(--player-3-color);
+}
+#player-color.player-4 {
+    background-color: var(--player-4-color);
+}
+
+
+
+#buttons {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: var(--die-spacing);
+}
+#buttons .button {
+    position: relative;
+    background-color: var(--die-color);
+    width: var(--die-size);
+    clear: none;
+    margin-right: var(--die-spacing);
+    margin-top: var(--die-spacing);
+    border-radius: calc(var(--die-size) * 0.1);
+    padding: calc(var(--die-size) * 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#buttons .button:hover {
+    background-color: var(--menu-hover-button-color);
+}
+
+#info {
+    display: flex;
+    flex-wrap: wrap;
+    padding: calc(var(--die-spacing) * 0.25) calc(var(--die-spacing) * 0.5);
+    position: relative;
+    color: var(--info-color);
+    background-color: var(--info-background-color);
+    clear: none;
+    margin: var(--die-spacing) var(--die-spacing) 0 var(--die-spacing);
+    border-radius: calc(var(--die-size) * 0.1);
+}
+#neutral-markers {
+    display: flex;
+    flex-wrap: wrap;
+    padding: calc(var(--die-spacing) * 0.25) calc(var(--die-spacing) * 0.5);
+    position: relative;
+    background-color: var(--right-background-color);
+    clear: none;
+    margin: var(--die-spacing) var(--die-spacing) 0 var(--die-spacing);
+    border-radius: calc(var(--die-size) * 0.1);
+    height: calc(var(--die-spacing) * 0.8);
+}
+#neutral-markers .marker {
+    background-color: var(--player-n-color);
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: calc(var(--die-spacing) * 0.25);
+    width: calc(var(--die-spacing) * 0.8);
+    height: calc(var(--die-spacing) * 0.8);
+    border-radius: 50%
+}
+#game-plan {
+    display: flex;
+    width: calc(11 * var(--row-width));
+    padding-left: var(--row-width);
+    padding-top: calc(var(--height) / 18);
+
+}
+
+.column {
+    width: var(--row-width);
+    display: flex;
+    flex-direction: column-reverse;
+}
+.column.completed .number {
+    color: var(--text-color-completed);
+}
+.column.completed .row {
+    background-color: var(--tile-color-completed);
+}
+.column .number {
+    text-align: center;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: calc(var(--row-width) / 10);
+    margin-right: calc(var(--row-width) / 10);
+    width: calc(calc(0.50 * var(--row-width)) - 2px);
+    height: calc(calc(0.44 * var(--row-width)) - 2px);
+    padding: calc(0.05 * var(--row-width)) calc(0.15 * var(--row-width));
+    border: solid 1px var(--tile-border-color);
+    background-color: var(--tile-color);
+    border-radius: 50%;
+}
+.row.top {
+    border-radius: 0;
+}
+.row .player {
+    vertical-align: middle;
+    display: block;
+    width: calc(0.19 * var(--row-width));
+    height: calc(0.19 * var(--row-width));
+    border-radius: 50%;
+    margin-bottom: calc(0.03 * var(--row-width));
+    margin-right: calc(0.02 * var(--row-width));
+}
+.row .player.player-n {
+    background-color: var(--player-n-color);
+}
+.row .player.player-1 {
+    background-color: var(--player-1-color);
+}
+.row .player.player-2 {
+    background-color: var(--player-2-color);
+}
+.row .player.player-3 {
+    background-color: var(--player-3-color);
+}
+.row .player.player-4 {
+    background-color: var(--player-4-color);
+}
+
+
+
+#dice {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: var(--die-spacing);
+}
+
+.die {
+    position: relative;
+    background-color: var(--die-color);
+    width: var(--die-size);
+    height: var(--die-size);
+    clear: none;
+    margin-right: var(--die-spacing);
+    margin-top: var(--die-spacing);
+    border-radius: 10%;
+}
+
+.die.selected {
+    box-shadow: 0 0 calc(var(--die-spacing) / 2) var(--die-shadow-color);
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.dot {
+    position: absolute;
+    width: var(--die-dot-size);
+    height: var(--die-dot-size);
+    border-radius: 50%;
+    background-color: var(--die-dot-color);
+}
+
+.dot-center-center {
+    top: calc(50% - calc(var(--die-dot-size) * 0.5));
+    left: calc(50% - calc(var(--die-dot-size) * 0.5));
+}
+
+.dot-center-left {
+    top: calc(50% - calc(var(--die-dot-size) * 0.5));
+    left: calc(25% - calc(var(--die-dot-size) * 0.5));
+}
+
+.dot-center-right {
+    top: calc(50% - calc(var(--die-dot-size) * 0.5));
+    right: calc(25% - calc(var(--die-dot-size) * 0.5));
+}
+
+.dot-upper-left {
+    top: calc(25% - calc(var(--die-dot-size) * 0.5));
+    left: calc(25% - calc(var(--die-dot-size) * 0.5));
+}
+
+.dot-upper-right {
+    top: calc(25% - calc(var(--die-dot-size) * 0.5));
+    right: calc(25% - calc(var(--die-dot-size) * 0.5));
+}
+
+.dot-lower-left {
+    bottom: calc(25% - calc(var(--die-dot-size) * 0.5));
+    left: calc(25% - calc(var(--die-dot-size) * 0.5));
+}
+
+.dot-lower-right {
+    bottom: calc(25% - calc(var(--die-dot-size) * 0.5));
+    right: calc(25% - calc(var(--die-dot-size) * 0.5));
+}
