@@ -103,6 +103,7 @@ h2, h3 {
     border-radius: 25px;
     box-shadow: 0 0 calc(var(--die-spacing) / 2) var(--die-shadow-color);
     padding-bottom: calc(var(--height) * 0.01);
+    overflow-y: auto;
 }
 
 
@@ -240,6 +241,7 @@ h2, h3 {
     background-color: var(--left-background-color);
     margin: 0;
     padding: 0;
+    overflow-y: auto;
 }
 
 #right-panel {
@@ -252,6 +254,7 @@ h2, h3 {
     background-color: var(--right-background-color);
     margin: 0;
     padding: 0;
+    overflow: auto;
 }
 
 #turn-info {

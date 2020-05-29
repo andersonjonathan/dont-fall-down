@@ -482,7 +482,7 @@ class DontFall {
             return acc;
         }, {});
         for (const player in playerMap) {
-            if (playerMap.hasOwnProperty(player) && playerMap[player] === 1) {
+            if (playerMap.hasOwnProperty(player) && playerMap[player] === 3) {
                 return player;
             }
         }
